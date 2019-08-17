@@ -2,19 +2,25 @@ package pqsoft.hrm;
 
 public class Employee {
 
-    private final long id;
-    private final String name;
+    private long id;
+    private String firstName;
+    private String lastName;
 
-    public Employee(long id, String name) {
+    public Employee(long id, String firstName, String lastName) {
         this.id = id;
-        this.name = name;
+        this.firstName = firstName;
+        this.lastName = lastName;
     }
 
     public long getId() {
         return id;
     }
 
-    public String getName() {
-        return name;
+    public String getFirstName() {
+        return firstName;
+    }
+
+    public String getFullName() {
+        return String.format("%s %s", firstName, lastName);
     }
 }

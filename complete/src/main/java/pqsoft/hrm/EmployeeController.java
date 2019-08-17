@@ -14,6 +14,6 @@ public class EmployeeController {
     @RequestMapping("/employees")
     public Employee employee(@RequestParam(value="name", defaultValue="World") String name) {
         return new Employee(counter.incrementAndGet(),
-                            String.format(template, name));
+                            String.format(template, name), name);
     }
 }
