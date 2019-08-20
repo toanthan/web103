@@ -18,6 +18,9 @@ public class Employee {
 
     private String phone;
 
+    @ManyToMany
+    private List<Task> tasks;
+
     public Employee() {
     }
 

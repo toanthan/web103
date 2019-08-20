@@ -4,24 +4,19 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import pqsoft.hrm.dao.EmployeeRepository;
+import pqsoft.hrm.dao.TaskRepository;
 import pqsoft.hrm.model.Employee;
+import pqsoft.hrm.model.Task;
 
 @Controller
-public class EmployeeController {
+public class TaskController {
     private static final String template = "Hello, %s!";
 
-    private EmployeeRepository employeeRepos;
+    private TaskRepository employeeRepos;
 
-    @Autowired
-    public EmployeeController(EmployeeRepository employeeRepos) {
-        this.employeeRepos = employeeRepos;
-    }
-
-    @GetMapping("/employees")
+    @GetMapping("/tasks")
     public String index(Model model) {
-        final Employee employee = this.employeeRepos.findById(1L).get();
-        return "employees";
+        return "tasks";
     }
 }
