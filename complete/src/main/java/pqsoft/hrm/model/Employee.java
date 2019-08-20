@@ -1,12 +1,25 @@
-package pqsoft.hrm;
+package pqsoft.hrm.model;
 
+import javax.persistence.*;
 import java.util.*;
 
+@Entity(name = "employees")
 public class Employee {
 
+    @Id
+    @GeneratedValue(strategy= GenerationType.AUTO)
     private long id;
+
+    @Column(name = "first_name")
     private String firstName;
+
+    @Column(name = "last_name")
     private String lastName;
+
+    private String phone;
+
+    public Employee() {
+    }
 
     public Employee(long id, String firstName, String lastName) {
         this.id = id;
@@ -20,6 +33,14 @@ public class Employee {
 
     public String getFirstName() {
         return firstName;
+    }
+
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
     }
 
     public String getFullName() {
@@ -52,28 +73,5 @@ public class Employee {
     @Override
     public int hashCode() {
         return Objects.hash(firstName, lastName);
-    }
-
-    public static void main(String[] args) {
-        Employee empl1 = new Employee(1L, "test1", "test1");
-        Employee empl2 = new Employee(2L, "test1", "test1");
-        System.out.println(empl1.equals(empl2));
-
-        List<Employee> empls = new ArrayList<>();
-        empls.add(empl1);
-        empls.add(empl2);
-
-        System.out.printf("List size: %s", empls.size());
-        System.out.printf("First item: %s%n", empls.get(1));
-
-        Set<Employee> sets = new HashSet<>();
-        sets.add(empl1);
-        sets.add(empl2);
-        System.out.printf("Set size: %s", sets.size());
-
-        final Map<String, Employee> map = new HashMap<>();
-        map.put("1", empl1);
-        map.put("2", empl1);
-        map.get("2");
     }
 }

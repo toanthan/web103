@@ -2,6 +2,7 @@ package pqsoft.hrm;
 
 import org.junit.Assert;
 import org.junit.Test;
+import pqsoft.hrm.model.Employee;
 
 public class EmployeeTest {
     @Test
