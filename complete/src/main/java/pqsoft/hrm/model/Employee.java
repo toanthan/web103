@@ -10,6 +10,8 @@ public class Employee {
     @GeneratedValue(strategy= GenerationType.AUTO)
     private long id;
 
+    private boolean admin;
+
     @Column(name = "first_name")
     private String firstName;
 
@@ -17,25 +19,34 @@ public class Employee {
     private String lastName;
 
     private String phone;
+    private String email;
+    private String alias;
 
     @ManyToMany
     private List<Task> tasks;
-
-    public Employee() {
-    }
-
-    public Employee(long id, String firstName, String lastName) {
-        this.id = id;
-        this.firstName = firstName;
-        this.lastName = lastName;
-    }
 
     public long getId() {
         return id;
     }
 
+    public void setId(long id) {
+        this.id = id;
+    }
+
     public String getFirstName() {
         return firstName;
+    }
+
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
+    public String getLastName() {
+        return lastName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
     }
 
     public String getPhone() {
@@ -46,35 +57,35 @@ public class Employee {
         this.phone = phone;
     }
 
-    public String getFullName() {
-        return String.format("%s %s", firstName, lastName);
+    public String getEmail() {
+        return email;
     }
 
-    @Override
-    public String toString() {
-        return "Employee{" +
-                "id=" + id +
-                ", firstName='" + firstName + '\'' +
-                ", lastName='" + lastName + '\'' +
-                '}';
+    public void setEmail(String email) {
+        this.email = email;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) {
-            return true;
-        }
-        if (o == null || getClass() != o.getClass()) {
-            return false;
-        }
-        Employee employee = (Employee) o;
-        return
-                Objects.equals(firstName, employee.firstName) &&
-                        Objects.equals(lastName, employee.lastName);
+    public String getAlias() {
+        return alias;
     }
 
-    @Override
-    public int hashCode() {
-        return Objects.hash(firstName, lastName);
+    public void setAlias(String alias) {
+        this.alias = alias;
+    }
+
+    public boolean isAdmin() {
+        return admin;
+    }
+
+    public void setAdmin(boolean admin) {
+        this.admin = admin;
+    }
+
+    public List<Task> getTasks() {
+        return tasks;
+    }
+
+    public void setTasks(List<Task> tasks) {
+        this.tasks = tasks;
     }
 }

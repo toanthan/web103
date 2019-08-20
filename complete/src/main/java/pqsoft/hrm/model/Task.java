@@ -11,6 +11,7 @@ public class Task {
 	private final static int DONE = 2;
 
 	@Id
+	@GeneratedValue(strategy= GenerationType.AUTO)
 	private int id;
 
 	@Column(name = "task_name")
