@@ -4,14 +4,15 @@ import java.util.Date;
 import java.util.List;
 import javax.persistence.*;
 
-@Entity
+@Entity(name = "tasks")
 public class Task {
   private static final int NEW = 0;
   private static final int IN_PROGRESS = 1;
   private static final int DONE = 2;
 
   @Id
-  @GeneratedValue(strategy = GenerationType.AUTO)
+  @Column(name = "task_id")
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
   private int id;
 
   @Column(name = "task_name")
@@ -20,7 +21,11 @@ public class Task {
   private String description;
 
   private int status;
+
+  @Column(name = "begin_at")
   private Date beginAt;
+
+  @Column(name = "finish_at")
   private Date finishAt;
 
   @Column(name = "created_at")
@@ -31,7 +36,12 @@ public class Task {
 
   @OneToOne private Employee creator;
 
-  @ManyToMany private List<Employee> assignees;
+  @ManyToMany
+  @JoinTable(name = "employees_tasks",
+      joinColumns = @JoinColumn(name = "employee_id"),
+      inverseJoinColumns = @JoinColumn(name = "task_id")
+  )
+  private List<Employee> employees;
 
   public int getId() {
     return id;
@@ -81,12 +91,12 @@ public class Task {
     this.creator = creator;
   }
 
-  public List<Employee> getAssignees() {
-    return assignees;
+  public List<Employee> getEmployees() {
+    return employees;
   }
 
-  public void setAssignees(List<Employee> assignees) {
-    this.assignees = assignees;
+  public void setEmployees(List<Employee> employees) {
+    this.employees = employees;
   }
 
   public int getStatus() {

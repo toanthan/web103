@@ -7,8 +7,9 @@ import javax.persistence.*;
 public class Employee {
 
   @Id
-  @GeneratedValue(strategy = GenerationType.AUTO)
-  private long id;
+  @Column(name = "employee_id")
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  private int id;
 
   private boolean admin;
 
@@ -22,13 +23,14 @@ public class Employee {
   private String email;
   private String alias;
 
-  @ManyToMany private List<Task> tasks;
+  @ManyToMany(mappedBy = "employees")
+  private List<Task> tasks;
 
-  public long getId() {
+  public int getId() {
     return id;
   }
 
-  public void setId(long id) {
+  public void setId(int id) {
     this.id = id;
   }
 
