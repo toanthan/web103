@@ -33,22 +33,25 @@ import org.springframework.test.web.servlet.MockMvc;
 @AutoConfigureMockMvc
 public class EmployeeControllerTests {
 
-    @Autowired
-    private MockMvc mockMvc;
+  @Autowired private MockMvc mockMvc;
 
-    @Test
-    public void noParamGreetingShouldReturnDefaultMessage() throws Exception {
+  @Test
+  public void noParamGreetingShouldReturnDefaultMessage() throws Exception {
 
-        this.mockMvc.perform(get("/employees")).andDo(print()).andExpect(status().isOk())
-                .andExpect(jsonPath("$.content").value("Hello, World!"));
-    }
+    this.mockMvc
+        .perform(get("/employees"))
+        .andDo(print())
+        .andExpect(status().isOk())
+        .andExpect(jsonPath("$.content").value("Hello, World!"));
+  }
 
-    @Test
-    public void paramGreetingShouldReturnTailoredMessage() throws Exception {
+  @Test
+  public void paramGreetingShouldReturnTailoredMessage() throws Exception {
 
-        this.mockMvc.perform(get("/employees").param("name", "Spring Community"))
-                .andDo(print()).andExpect(status().isOk())
-                .andExpect(jsonPath("$.content").value("Hello, Spring Community!"));
-    }
-
+    this.mockMvc
+        .perform(get("/employees").param("name", "Spring Community"))
+        .andDo(print())
+        .andExpect(status().isOk())
+        .andExpect(jsonPath("$.content").value("Hello, Spring Community!"));
+  }
 }

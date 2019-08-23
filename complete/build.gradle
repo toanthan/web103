@@ -4,6 +4,7 @@ buildscript {
     }
     dependencies {
         classpath("org.springframework.boot:spring-boot-gradle-plugin:2.1.6.RELEASE")
+        classpath "com.diffplug.spotless:spotless-plugin-gradle:3.6.0"
     }
 }
 
@@ -12,6 +13,7 @@ apply plugin: 'eclipse'
 apply plugin: 'idea'
 apply plugin: 'org.springframework.boot'
 apply plugin: 'io.spring.dependency-management'
+apply plugin: "com.diffplug.gradle.spotless"
 
 bootJar {
     baseName = 'web103'
@@ -20,6 +22,12 @@ bootJar {
 
 repositories {
     mavenCentral()
+}
+
+spotless {
+    java {
+        googleJavaFormat()
+    }
 }
 
 sourceCompatibility = 1.8
