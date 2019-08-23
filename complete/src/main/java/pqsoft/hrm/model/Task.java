@@ -3,6 +3,7 @@ package pqsoft.hrm.model;
 import java.util.Date;
 import java.util.List;
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 
 @Entity(name = "tasks")
 public class Task {
@@ -34,7 +35,7 @@ public class Task {
   @Column(name = "updated_at")
   private Date updatedAt;
 
-  @OneToOne private Employee creator;
+  @OneToOne(optional = false) private Employee creator;
 
   @ManyToMany
   @JoinTable(name = "employees_tasks",

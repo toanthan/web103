@@ -1,7 +1,7 @@
 <!DOCTYPE html>
-<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>Bootstrap Example</title>
+    <title>Tasks</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
@@ -22,49 +22,114 @@
     </ul>
 </nav>
 
-<form>
-    <div class="form-row align-items-center">
-        <div class="col-auto">
-            <label class="sr-only" for="inlineFormInput">Name</label>
-            <input type="text" class="form-control mb-2" id="inlineFormInput" placeholder="Jane Doe">
-        </div>
-        <div class="col-auto">
-            <button type="submit" class="btn btn-primary mb-2">Search</button>
-        </div>
-    </div>
-</form>
-
 <div class="container-fluid">
+    <form>
+        <div class="form-row align-items-center">
+            <div class="col-auto">
+                <label class="sr-only" for="inlineFormInput">Name</label>
+                <input type="text" class="form-control mb-2" id="inlineFormInput"
+                       placeholder="Input task name to search">
+            </div>
+            <div class="col-auto">
+                <button type="submit" class="btn btn-primary mb-2">Search</button>
+            </div>
+        </div>
+    </form>
+
     <table class="table">
         <thead>
         <tr>
-            <th scope="col">#</th>
-            <th scope="col">First</th>
-            <th scope="col">Last</th>
-            <th scope="col">Handle</th>
+            <th scope="col"><input type="checkbox"></th>
+            <th scope="col">Task</th>
+            <th scope="col">Description</th>
+            <th scope="col">Creator</th>
+            <th scope="col">Created At</th>
+            <th scope="col">Updated At</th>
+            <th scope="col">Status</th>
+            <th scope="col">Actions</th>
         </tr>
         </thead>
         <tbody>
-        <tr>
-            <th scope="row">1</th>
-            <td>Mark</td>
-            <td>Otto</td>
-            <td>@mdo</td>
-        </tr>
-        <tr>
-            <th scope="row">2</th>
-            <td>Jacob</td>
-            <td>Thornton</td>
-            <td>@fat</td>
-        </tr>
-        <tr>
-            <th scope="row">3</th>
-            <td>Larry</td>
-            <td>the Bird</td>
-            <td>@twitter</td>
+        <tr th:each="task : ${tasks}">
+            <td><input type="checkbox"></td>
+            <td th:text="${task.taskName}"></td>
+            <td th:text="${task.description}"></td>
+            <td th:text="${task.creator.getAlias()}"></td>
+            <td th:text="${task.createdAt}"></td>
+            <td th:text="${task.updatedAt}"></td>
+            <td th:text="${task.status}"></td>
+            <td>
+                <button class="btn btn-primary"
+                        data-toggle="modal"
+                        data-target="#mdlAssign">
+                    <i class="fas fa-user-edit ms-2">Assign</i>
+                </button>
+                <button class="btn btn-primary"
+                        data-toggle="modal"
+                        data-target="#mdlEdit">
+                    <i class="fas fa-user-edit ms-2">Edit</i>
+                </button>
+            </td>
+            <div class="modal fade" id="mdlAssign"
+                 tabindex="-1" role="dialog"
+                 aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title">Assign task</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <form action="#" th:action="@{/tasks/{id}(id=${task.id})}" method="post">
+                                <div class="form-group">
+                                    <label for="assignee">Choose employee to assign task</label>
+                                    <select class="form-control" id="assignee">
+                                        <option th:each="assignee : ${assignees}" th:text="${assignee.alias}">
+                                        </option>
+                                    </select>
+                                </div>
+                                <button type="submit" class="btn btn-primary">Assign</button>
+                            </form>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal fade" id="mdlEdit"
+                 tabindex="-1" role="dialog"
+                 aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title">Task info</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <form action="#" th:action="@{/tasks/{id}(id=${task.id})}" method="post">
+                                <div class="form-group">
+                                </div>
+                                <button type="submit" class="btn btn-primary">Update</button>
+                            </form>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </tr>
         </tbody>
     </table>
+</div>
+<div>
+    <button type="button" class="btn btn-primary">Create Task</button>
+    <button type="button" class="btn btn-secondary">Delete Task</button>
 </div>
 
 <nav aria-label="Page navigation example">

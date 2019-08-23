@@ -11,7 +11,7 @@ public class Employee {
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private int id;
 
-  private boolean admin;
+  private int admin;
 
   @Column(name = "first_name")
   private String firstName;
@@ -74,11 +74,11 @@ public class Employee {
     this.alias = alias;
   }
 
-  public boolean isAdmin() {
+  public int getAdmin() {
     return admin;
   }
 
-  public void setAdmin(boolean admin) {
+  public void setAdmin(int admin) {
     this.admin = admin;
   }
 
