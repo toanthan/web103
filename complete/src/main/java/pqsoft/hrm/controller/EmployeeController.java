@@ -1,6 +1,7 @@
 package pqsoft.hrm.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -20,7 +21,7 @@ public class EmployeeController {
 
   @GetMapping("/employees")
   public String index(Model model) {
-    final Employee employee = this.employeeRepos.findById(1L).get();
+    final Employee employee = this.employeeRepos.findById(1).get();
     return "employees";
   }
 }

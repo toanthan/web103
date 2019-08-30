@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import pqsoft.hrm.dao.EmployeeRepository;
 import pqsoft.hrm.dao.TaskRepository;
 
@@ -24,4 +25,11 @@ public class TaskController {
 		model.addAttribute("assignees", employeeRepos.findByAdmin(0));
     return "tasks";
   }
+
+	@PostMapping("/tasks/delete")
+	public String delete(Model model) {
+		model.addAttribute("tasks", taskRepos.findAll());
+		model.addAttribute("assignees", employeeRepos.findByAdmin(0));
+		return "tasks";
+	}
 }
