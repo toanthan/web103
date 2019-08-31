@@ -21,7 +21,6 @@ public class EmployeeController {
 
   @GetMapping("/employees")
   public String index(Model model) {
-    final Employee employee = this.employeeRepos.findById(1).get();
     return "employees";
   }
 }

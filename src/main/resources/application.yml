@@ -22,7 +22,6 @@ spring:
     properties.hibernate:
       temp.use_jdbc_metadata_defaults: false
       jdbc.time_zone: UTC
-  data.rest.basePath: /api
   thymeleaf.cache: false
   devtools.restart.exclude: src/test/**
   jackson:

@@ -35,6 +35,14 @@ spotless {
 sourceCompatibility = 1.8
 targetCompatibility = 1.8
 
+configurations {
+    all*.exclude module : 'spring-boot-starter-logging'
+}
+
+bootRun {
+    systemProperties System.properties
+}
+
 dependencies {
     compile("org.springframework.boot:spring-boot-starter-actuator")
     compile("org.springframework.boot:spring-boot-starter-web")
