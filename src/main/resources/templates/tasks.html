@@ -12,7 +12,7 @@
 <body>
 
 <div class="container-fluid">
-    <div class="container-fluid" th:insert="~{common/header}"></div>
+    <div th:replace="common/header :: menu"/>
 
     <form class="container-fluid">
         <div class="form-row align-items-center">
@@ -61,15 +61,15 @@
                     </button>
                 </td>
 
-                <div th:insert="~{tasks/assign}"/>
-                <div th:insert="~{tasks/edit}"/>
-                <div th:insert="~{tasks/delete}"/>
+                <div th:replace="tasks/assign"/>
+                <div th:replace="tasks/edit"/>
+                <div th:replace="tasks/delete"/>
             </tr>
             </tbody>
         </table>
         <button type="button" class="btn btn-primary">Create Task</button>
-        <div th:insert="~{common/paging}"></div>
-        <div th:insert="~{common/footer}"></div>
+        <div th:replace="common/paging :: paging"/>
+        <div th:replace="common/footer :: copy"/>
     </div>
 </div>
 

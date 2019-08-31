@@ -40,7 +40,9 @@ public class Task {
   @Column(name = "updated_at")
   private Date updatedAt;
 
-  @OneToOne(optional = false) private Employee creator;
+  @ManyToOne
+  @JoinColumn(name="creator_id")
+  private Employee creator;
 
   @ManyToMany
   @JoinTable(name = "employees_tasks",
