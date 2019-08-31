@@ -8,7 +8,6 @@ import pqsoft.hrm.dao.EmployeeRepository;
 import pqsoft.hrm.model.Employee;
 import pqsoft.hrm.util.JsonUtil;
 
-import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -30,7 +29,7 @@ public class HrmAuthenticationSuccessHandler implements AuthenticationSuccessHan
   @Override
   public void onAuthenticationSuccess(
       HttpServletRequest request, HttpServletResponse response, Authentication authentication)
-      throws IOException, ServletException {
+      throws IOException {
     HttpSession session = request.getSession();
     Map<String, Object> authenJson = JsonUtil.transform(authentication);
     Map<String, Object> userAuthentication =
@@ -43,7 +42,7 @@ public class HrmAuthenticationSuccessHandler implements AuthenticationSuccessHan
       response.setStatus(HttpServletResponse.SC_NOT_ACCEPTABLE);
       response.sendRedirect("/login");
     } else {
-      details.put("admin", account.admin);
+      details.put("admin", account.getAdmin());
       session.setAttribute("userDetails", details);
       session.setMaxInactiveInterval(3_600); // 1 hour
       response.setStatus(HttpServletResponse.SC_OK);

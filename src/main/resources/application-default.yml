@@ -1,0 +1,8 @@
+security.oauth2.client:
+  clientId: 1036610951345-fge4bk0cpu4tuo9d9h5jb0nesd7fi8js.apps.googleusercontent.com
+  clientSecret: 2eKZgCSftNZz9FN8NZ4nG2Mb
+spring.datasource:
+  url: jdbc:mysql://localhost:3306/hrm
+  username: root
+  password: root
+version: 1.0.0.01
