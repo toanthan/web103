@@ -1,5 +1,11 @@
 package pqsoft.hrm.config;
 
+import java.io.IOException;
+import java.util.Map;
+import java.util.Objects;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
@@ -7,13 +13,6 @@ import org.springframework.stereotype.Component;
 import pqsoft.hrm.dao.EmployeeRepository;
 import pqsoft.hrm.model.Employee;
 import pqsoft.hrm.util.JsonUtil;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
-import java.io.IOException;
-import java.util.Map;
-import java.util.Objects;
 
 @Component
 public class HrmAuthenticationSuccessHandler implements AuthenticationSuccessHandler {
@@ -43,6 +42,7 @@ public class HrmAuthenticationSuccessHandler implements AuthenticationSuccessHan
       response.sendRedirect("/login");
     } else {
       details.put("admin", account.getAdmin());
+      details.put("account_id", account.getId());
       session.setAttribute("userDetails", details);
       session.setMaxInactiveInterval(3_600); // 1 hour
       response.setStatus(HttpServletResponse.SC_OK);

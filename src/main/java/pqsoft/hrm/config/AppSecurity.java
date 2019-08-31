@@ -1,5 +1,6 @@
 package pqsoft.hrm.config;
 
+import javax.servlet.Filter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.security.oauth2.resource.ResourceServerProperties;
 import org.springframework.boot.autoconfigure.security.oauth2.resource.UserInfoTokenServices;
@@ -18,16 +19,12 @@ import org.springframework.security.oauth2.config.annotation.web.configuration.E
 import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
-import javax.servlet.Filter;
-
 @Configuration
 @EnableOAuth2Client
 public class AppSecurity extends WebSecurityConfigurerAdapter {
-  @Autowired
-  private OAuth2ClientContext oauth2ClientContext;
+  @Autowired private OAuth2ClientContext oauth2ClientContext;
 
-  @Autowired
-  private HrmAuthenticationSuccessHandler customAuthenticationSuccessHandler;
+  @Autowired private HrmAuthenticationSuccessHandler customAuthenticationSuccessHandler;
 
   @Bean
   @ConfigurationProperties("security.oauth2.client")

@@ -1,10 +1,9 @@
 package pqsoft.hrm.model;
 
-import lombok.Getter;
-import lombok.Setter;
-
 import java.util.*;
 import javax.persistence.*;
+import lombok.Getter;
+import lombok.Setter;
 
 @Getter
 @Setter

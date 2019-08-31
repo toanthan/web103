@@ -30,7 +30,6 @@
         <table class="table">
             <thead>
             <tr>
-                <th scope="col"><input type="checkbox"/></th>
                 <th scope="col">Task</th>
                 <th scope="col">Description</th>
                 <th scope="col">Creator</th>
@@ -42,7 +41,6 @@
             </thead>
             <tbody>
             <tr th:each="task : ${tasks}">
-                <td><input type="checkbox"/></td>
                 <td th:text="${task.taskName}"></td>
                 <td th:text="${task.description}"></td>
                 <td th:text="${task.creator.getAlias()}"></td>

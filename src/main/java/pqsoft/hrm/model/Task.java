@@ -1,12 +1,10 @@
 package pqsoft.hrm.model;
 
-import lombok.Getter;
-import lombok.Setter;
-
 import java.util.Date;
 import java.util.List;
 import javax.persistence.*;
-import javax.validation.constraints.NotNull;
+import lombok.Getter;
+import lombok.Setter;
 
 @Getter
 @Setter
@@ -41,13 +39,14 @@ public class Task {
   private Date updatedAt;
 
   @ManyToOne
-  @JoinColumn(name="creator_id")
+  @JoinColumn(name = "creator_id")
   private Employee creator;
 
   @ManyToMany
-  @JoinTable(name = "employees_tasks",
-      joinColumns = @JoinColumn(name = "employee_id"),
-      inverseJoinColumns = @JoinColumn(name = "task_id")
+  @JoinTable(
+    name = "employees_tasks",
+    joinColumns = @JoinColumn(name = "employee_id"),
+    inverseJoinColumns = @JoinColumn(name = "task_id")
   )
-  private List<Employee> employees;
+  private List<Employee> assignees;
 }

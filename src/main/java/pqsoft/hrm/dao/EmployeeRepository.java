@@ -1,14 +1,11 @@
 package pqsoft.hrm.dao;
 
-import org.springframework.data.domain.Page;
-import org.springframework.data.repository.CrudRepository;
+import java.util.List;
 import org.springframework.data.repository.PagingAndSortingRepository;
 import pqsoft.hrm.model.Employee;
 
-import java.util.List;
-
 public interface EmployeeRepository extends PagingAndSortingRepository<Employee, Integer> {
-	List<Employee> findByAdmin(int admin);
+  List<Employee> findByAdmin(int admin);
 
-	Employee findByEmail(String email);
+  Employee findByEmail(String email);
 }
