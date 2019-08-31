@@ -48,5 +48,5 @@ public class Task {
     joinColumns = @JoinColumn(name = "employee_id"),
     inverseJoinColumns = @JoinColumn(name = "task_id")
   )
-  private List<Employee> assignees;
+  private List<Employee> employees;
 }

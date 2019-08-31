@@ -11,19 +11,37 @@
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title">Task info</h5>
+                    <h5 class="modal-title">Update task</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
                 <div class="modal-body">
-                    <form action="#" th:action="@{/tasks/{id}(id=${task.id})}" method="post">
+                    <form th:action="@{/tasks/{id}(id=${task.id})}" method="post">
                         <div class="form-group">
+                            <label for="name">Task name</label>
+                            <input type="text" class="form-control" id="name"/>
                         </div>
-                        <button type="submit" class="btn btn-primary">Update</button>
+                        <div class="form-group">
+                            <label for="description">Description</label>
+                            <textarea class="form-control" id="description" rows="3"></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label for="status">Status</label>
+                            <select class="form-control" id="status">
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="assignee">Choose employee to assign task</label>
+                            <select class="form-control" id="assignee" multiple="multiple">
+                                <option th:each="assignee : ${assignees}" th:text="${assignee.alias}">
+                                </option>
+                            </select>
+                        </div>
                     </form>
                 </div>
                 <div class="modal-footer">
+                    <button type="submit" class="btn btn-primary">Submit</button>
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                 </div>
             </div>
