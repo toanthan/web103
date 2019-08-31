@@ -24,7 +24,7 @@ public class Task {
 
   private String description;
 
-  private int status;
+  private String status;
 
   @Column(name = "begin_at")
   private Date beginAt;
