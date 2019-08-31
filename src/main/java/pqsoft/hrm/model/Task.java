@@ -1,10 +1,15 @@
 package pqsoft.hrm.model;
 
+import lombok.Getter;
+import lombok.Setter;
+
 import java.util.Date;
 import java.util.List;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 
+@Getter
+@Setter
 @Entity(name = "tasks")
 public class Task {
   private static final int NEW = 0;
@@ -43,84 +48,4 @@ public class Task {
       inverseJoinColumns = @JoinColumn(name = "task_id")
   )
   private List<Employee> employees;
-
-  public int getId() {
-    return id;
-  }
-
-  public void setId(int id) {
-    this.id = id;
-  }
-
-  public String getTaskName() {
-    return taskName;
-  }
-
-  public void setTaskName(String taskName) {
-    this.taskName = taskName;
-  }
-
-  public String getDescription() {
-    return description;
-  }
-
-  public void setDescription(String description) {
-    this.description = description;
-  }
-
-  public Date getCreatedAt() {
-    return createdAt;
-  }
-
-  public void setCreatedAt(Date createdAt) {
-    this.createdAt = createdAt;
-  }
-
-  public Date getUpdatedAt() {
-    return updatedAt;
-  }
-
-  public void setUpdatedAt(Date updatedAt) {
-    this.updatedAt = updatedAt;
-  }
-
-  public Employee getCreator() {
-    return creator;
-  }
-
-  public void setCreator(Employee creator) {
-    this.creator = creator;
-  }
-
-  public List<Employee> getEmployees() {
-    return employees;
-  }
-
-  public void setEmployees(List<Employee> employees) {
-    this.employees = employees;
-  }
-
-  public int getStatus() {
-    return status;
-  }
-
-  public void setStatus(int status) {
-    this.status = status;
-  }
-
-  public Date getBeginAt() {
-    return beginAt;
-  }
-
-  public void setBeginAt(Date beginAt) {
-    this.beginAt = beginAt;
-  }
-
-  public Date getFinishAt() {
-    return finishAt;
-  }
-
-  public void setFinishAt(Date finishAt) {
-    this.finishAt = finishAt;
-  }
 }

@@ -9,4 +9,6 @@ import java.util.List;
 
 public interface EmployeeRepository extends PagingAndSortingRepository<Employee, Integer> {
 	List<Employee> findByAdmin(int admin);
+
+	Employee findByEmail(String email);
 }

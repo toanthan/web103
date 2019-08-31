@@ -1,8 +1,13 @@
 package pqsoft.hrm.model;
 
+import lombok.Getter;
+import lombok.Setter;
+
 import java.util.*;
 import javax.persistence.*;
 
+@Getter
+@Setter
 @Entity(name = "employees")
 public class Employee {
 
@@ -25,68 +30,4 @@ public class Employee {
 
   @ManyToMany(mappedBy = "employees")
   private List<Task> tasks;
-
-  public int getId() {
-    return id;
-  }
-
-  public void setId(int id) {
-    this.id = id;
-  }
-
-  public String getFirstName() {
-    return firstName;
-  }
-
-  public void setFirstName(String firstName) {
-    this.firstName = firstName;
-  }
-
-  public String getLastName() {
-    return lastName;
-  }
-
-  public void setLastName(String lastName) {
-    this.lastName = lastName;
-  }
-
-  public String getPhone() {
-    return phone;
-  }
-
-  public void setPhone(String phone) {
-    this.phone = phone;
-  }
-
-  public String getEmail() {
-    return email;
-  }
-
-  public void setEmail(String email) {
-    this.email = email;
-  }
-
-  public String getAlias() {
-    return alias;
-  }
-
-  public void setAlias(String alias) {
-    this.alias = alias;
-  }
-
-  public int getAdmin() {
-    return admin;
-  }
-
-  public void setAdmin(int admin) {
-    this.admin = admin;
-  }
-
-  public List<Task> getTasks() {
-    return tasks;
-  }
-
-  public void setTasks(List<Task> tasks) {
-    this.tasks = tasks;
-  }
 }
