@@ -18,7 +18,8 @@ public abstract class SearchService<T> {
     final JpaQueryBuilder jpaQueryBuilder = getJpaQueryBuilder(pageable, params);
 
     final JpaQueryBuilder.ConditionQueryResult condition = jpaQueryBuilder.buildConditionQuery();
-    final Query countQuery = em.createQuery(String.format("%s %s", getCountQuery(), condition.getConditionSql()));
+    final Query countQuery =
+        em.createQuery(String.format("%s %s", getCountQuery(), condition.getConditionSql()));
     condition.getParams().forEach(countQuery::setParameter);
 
     int total = Integer.valueOf(countQuery.getSingleResult().toString());

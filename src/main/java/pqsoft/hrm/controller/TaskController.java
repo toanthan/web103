@@ -9,13 +9,12 @@ import org.springframework.data.web.PageableDefault;
 import org.springframework.data.web.SortDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.*;
 import pqsoft.hrm.dao.EmployeeRepository;
 import pqsoft.hrm.dao.TaskRepository;
+import pqsoft.hrm.dto.TaskDto;
 import pqsoft.hrm.service.TaskService;
+import pqsoft.hrm.util.SecurityUtils;
 
 @Controller
 public class TaskController {
@@ -41,8 +40,10 @@ public class TaskController {
           })
           Pageable pageable) {
 
-    model.addAttribute("tasks", taskService.search(pageable, ImmutableMap.of()));
+    model.addAttribute(
+        "tasks", taskService.search(pageable, ImmutableMap.of("admin", SecurityUtils.getAdmin())));
     model.addAttribute("assignees", employeeRepos.findByAdmin(0));
+    model.addAttribute("admin", SecurityUtils.getAdmin());
     return "tasks";
   }
 
@@ -56,30 +57,25 @@ public class TaskController {
           })
           Pageable pageable,
       @RequestBody Map<String, Object> params) {
+    params.put("admin", SecurityUtils.getAdmin());
 
     model.addAttribute("tasks", taskService.search(pageable, params));
     model.addAttribute("assignees", employeeRepos.findByAdmin(0));
     return "tasks";
   }
 
-  @DeleteMapping("/tasks")
-  public String delete(Model model) {
+  @DeleteMapping("/tasks/{id}")
+  public String delete(@RequestParam String id) {
     return "tasks";
   }
 
-  @PostMapping("/tasks/search")
-  public String create(
-      Model model,
-      @PageableDefault(page = 0, size = 10)
-      @SortDefault.SortDefaults({
-          @SortDefault(sort = "createdAt", direction = Sort.Direction.DESC),
-          @SortDefault(sort = "updatedAt", direction = Sort.Direction.DESC)
-      })
-          Pageable pageable,
-      @RequestBody Map<String, Object> params) {
+  @PutMapping("/tasks")
+  public String create(@RequestBody TaskDto task) {
+    return "tasks";
+  }
 
-    model.addAttribute("tasks", taskService.search(pageable, params));
-    model.addAttribute("assignees", employeeRepos.findByAdmin(0));
+  @PostMapping("/tasks")
+  public String update(@RequestBody TaskDto task) {
     return "tasks";
   }
 }
