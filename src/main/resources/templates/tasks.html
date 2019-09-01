@@ -13,49 +13,50 @@
 
 <div class="container-fluid">
     <div th:replace="common/header :: menu"/>
-    <div th:replace="tasks/search"/>
+    <form class="container-fluid" action="tasks/search">
+        <div th:replace="tasks/search"/>
+        <div class="container-fluid">
+            <h4>Task list</h4>
+            <table class="table">
+                <thead>
+                <tr>
+                    <th scope="col">Task</th>
+                    <th scope="col">Description</th>
+                    <th scope="col">Creator</th>
+                    <th scope="col">Created At</th>
+                    <th scope="col">Updated At</th>
+                    <th scope="col">Status</th>
+                    <th scope="col">Actions</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="task : ${tasks}">
+                    <td th:text="${task.taskName}"></td>
+                    <td th:text="${task.description}"></td>
+                    <td th:text="${task.creator.getAlias()}"></td>
+                    <td th:text="${task.createdAt}"></td>
+                    <td th:text="${task.updatedAt}"></td>
+                    <td th:text="${task.status}"></td>
+                    <td>
+                        <button class="btn btn-primary" data-toggle="modal" data-target="#mdlEdit">
+                            <i class="fas fa-user-edit ms-2">Edit</i>
+                        </button>
+                        <button class="btn btn-dark" data-toggle="modal" data-target="#mdlDelete">
+                            <i class="fas fa-user-edit ms-2">Delete</i>
+                        </button>
+                    </td>
 
-    <div class="container-fluid">
-        <h4>Task list</h4>
-        <table class="table">
-            <thead>
-            <tr>
-                <th scope="col">Task</th>
-                <th scope="col">Description</th>
-                <th scope="col">Creator</th>
-                <th scope="col">Created At</th>
-                <th scope="col">Updated At</th>
-                <th scope="col">Status</th>
-                <th scope="col">Actions</th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr th:each="task : ${tasks}">
-                <td th:text="${task.taskName}"></td>
-                <td th:text="${task.description}"></td>
-                <td th:text="${task.creator.getAlias()}"></td>
-                <td th:text="${task.createdAt}"></td>
-                <td th:text="${task.updatedAt}"></td>
-                <td th:text="${task.status}"></td>
-                <td>
-                    <button class="btn btn-primary" data-toggle="modal" data-target="#mdlEdit">
-                        <i class="fas fa-user-edit ms-2">Edit</i>
-                    </button>
-                    <button class="btn btn-dark" data-toggle="modal" data-target="#mdlDelete">
-                        <i class="fas fa-user-edit ms-2">Delete</i>
-                    </button>
-                </td>
-
-                <div th:replace="tasks/edit"/>
-                <div th:replace="tasks/delete"/>
-            </tr>
-            </tbody>
-        </table>
-        <button type="button" class="btn btn-primary">Create Task</button>
-        <div th:replace="common/paging :: paging"/>
-        <div th:replace="common/footer :: copy"/>
-    </div>
+                    <div th:replace="tasks/edit"/>
+                    <div th:replace="tasks/delete"/>
+                </tr>
+                </tbody>
+            </table>
+            <button type="button" class="btn btn-primary">Create Task</button>
+            <div th:replace="common/paging :: paging"/>
+        </div>
+    </form>
 </div>
+<div th:replace="common/footer :: copy"/>
 
 </body>
 </html>
