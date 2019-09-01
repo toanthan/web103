@@ -10,9 +10,9 @@ import lombok.Setter;
 @Setter
 @Entity(name = "tasks")
 public class Task {
-  private static final int NEW = 0;
-  private static final int IN_PROGRESS = 1;
-  private static final int DONE = 2;
+  private static final String NEW = "NEW";
+  private static final String IN_PROGRESS = "DOING";
+  private static final String DONE = "DONE";
 
   @Id
   @Column(name = "task_id")
