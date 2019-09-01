@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+
+<html xmlns:th="http://www.thymeleaf.org">
+
+<body>
+
+<div class="container-fluid" th:fragment="taskSearch">
+    <h4>Search Criteria</h4>
+    <div class="form-row">
+        <div class="form-group col-md-2">
+            <label for="sName">Task Name</label>
+            <input type="email" class="form-control" id="sName" name="sName"/>
+        </div>
+        <div class="form-group col-md-2">
+            <label for="status">Status</label>
+            <select class="form-control" id="status" name="sStatus">
+                <option>NEW</option>
+                <option>DOING</option>
+                <option>DONE</option>
+            </select>
+        </div>
+        <div class="form-group col-md-2">
+            <label for="assignee">Assignee</label>
+            <select class="form-control" id="assignee" name="sAssignee">
+                <option th:each="assignee : ${assignees}" th:text="${assignee.alias}">
+                </option>
+            </select>
+        </div>
+        <div class="form-group col-md-2">
+            <label for="date">Created Date</label>
+            <input type="text" class="form-control" id="date" name="sCreatedDate"/>
+        </div>
+        <div class="form-group col-md-2">
+            <label for="btnSearch">&nbsp;</label>
+            <button type="submit" class="btn btn-primary" id="btnSearch">Search</button>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,33 @@
+# Spring Security configuration
+security.oauth2:
+  client:
+    accessTokenUri: https://www.googleapis.com/oauth2/v4/token
+    userAuthorizationUri: https://accounts.google.com/o/oauth2/v2/auth
+    tokenName: oauth_token
+    authenticationScheme: query
+    clientAuthenticationScheme: form
+    scope:
+      - openid
+      - email
+      - profile
+  resource:
+    userInfoUri: https://www.googleapis.com/oauth2/v3/userinfo
+    preferTokenInfo: true
+spring:
+  jpa:
+    show-sql: false
+    hibernate:
+      dialect: org.hibernate.dialect.MySQLDialect
+      ddl-auto: none
+      use-new-id-generator-mappings: true
+    properties.hibernate:
+      temp.use_jdbc_metadata_defaults: false
+      jdbc.time_zone: UTC
+  thymeleaf.cache: false
+  devtools.restart.exclude: src/test/**
+  jackson:
+    date-format: yyyy-MM-dd'T'HH:mm:ssZ
+    timezone: UTC
+server:
+  port: 8080
+logging.level.: INFO
