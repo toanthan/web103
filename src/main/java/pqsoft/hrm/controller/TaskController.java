@@ -4,8 +4,10 @@ import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableMap;
 import java.util.*;
 import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 import java.util.stream.StreamSupport;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
@@ -38,21 +40,25 @@ public class TaskController {
   @GetMapping("/tasks")
   public String index(
       Model model,
-      @PageableDefault(page = 0, size = 10)
+      @PageableDefault(page = 0, size = 2)
           @SortDefault.SortDefaults({
             @SortDefault(sort = "createdAt", direction = Sort.Direction.DESC),
             @SortDefault(sort = "updatedAt", direction = Sort.Direction.DESC)
           })
           Pageable pageable) {
 
+    final Page<Task> tasks =
+        taskService.search(pageable, ImmutableMap.of("admin", SecurityUtils.getAdmin()));
     model.addAttribute(
-        "tasks", taskService.search(pageable, ImmutableMap.of("admin", SecurityUtils.getAdmin())));
+        "pageNumbers",
+        IntStream.rangeClosed(1, tasks.getTotalPages()).boxed().collect(Collectors.toList()));
+    model.addAttribute("tasks", tasks);
     model.addAttribute("assignees", employeeRepos.findByAdmin(0));
     model.addAttribute("admin", SecurityUtils.getAdmin());
     return "tasks";
   }
 
-  @PostMapping("/tasks/search")
+  @PostMapping(value = "/tasks/search")
   public String search(
       Model model,
       @PageableDefault(page = 0, size = 10)

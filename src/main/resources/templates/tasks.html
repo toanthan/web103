@@ -10,7 +10,7 @@
 
 <div class="container-fluid">
     <div th:replace="common/header :: menu"/>
-    <form class="container-fluid" action="tasks/search" name="frmSearch">
+    <form class="container-fluid" action="tasks/search" name="frmSearch" method="post">
         <div th:replace="tasks/search"/>
         <div class="container-fluid">
             <h4>Task list</h4>
@@ -35,10 +35,10 @@
                     <td th:text="${task.updatedAt}"></td>
                     <td th:text="${task.status}"></td>
                     <td>
-                        <button class="btn btn-primary" data-toggle="modal" data-target="#mdlEdit">
+                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#mdlEdit">
                             <i class="fas fa-user-edit ms-2">Edit</i>
                         </button>
-                        <button class="btn btn-dark" data-toggle="modal" data-target="#mdlDelete">
+                        <button type="button" class="btn btn-dark" data-toggle="modal" data-target="#mdlDelete">
                             <i class="fas fa-user-edit ms-2">Delete</i>
                         </button>
                     </td>
@@ -48,7 +48,7 @@
                 </tr>
                 </tbody>
             </table>
-            <button type="button" class="btn btn-primary">Create Task</button>
+            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#mdlCreate">Create Task</button>
             <div th:replace="common/paging :: paging"/>
         </div>
     </form>

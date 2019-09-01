@@ -22,7 +22,7 @@ public abstract class SearchService<T> {
         em.createQuery(String.format("%s %s", getCountQuery(), condition.getConditionSql()));
     condition.getParams().forEach(countQuery::setParameter);
 
-    int total = Integer.valueOf(countQuery.getSingleResult().toString());
+    int total = Integer.parseInt(countQuery.getSingleResult().toString());
     if (total == 0) {
       return new PageImpl<>(Collections.emptyList(), pageable, total);
     }

@@ -46,7 +46,7 @@ public class HrmAuthenticationSuccessHandler implements AuthenticationSuccessHan
       session.setAttribute("userDetails", details);
       session.setMaxInactiveInterval(3_600); // 1 hour
       response.setStatus(HttpServletResponse.SC_OK);
-      response.sendRedirect("/");
+      response.sendRedirect("/tasks");
     }
   }
 }
