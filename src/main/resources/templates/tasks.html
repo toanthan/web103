@@ -5,15 +5,12 @@
     <meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1"/>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"/>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
 </head>
 <body>
 
 <div class="container-fluid">
     <div th:replace="common/header :: menu"/>
-    <form class="container-fluid" action="tasks/search">
+    <form class="container-fluid" action="tasks/search" name="frmSearch">
         <div th:replace="tasks/search"/>
         <div class="container-fluid">
             <h4>Task list</h4>
@@ -57,6 +54,11 @@
     </form>
 </div>
 <div th:replace="common/footer :: copy"/>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+<script th:src="@{/js/app.js(_dc=${#dates.format(#dates.createNow(),'YYYYMMddHHmm')})}"></script>
 
 </body>
 </html>
