@@ -6,16 +6,14 @@ import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.logging.log4j.util.Strings;
 import org.springframework.data.domain.Pageable;
+import org.springframework.util.MultiValueMap;
 
 @Slf4j
 @RequiredArgsConstructor(staticName = "of")
 public class TaskJpaQueryBuilder implements JpaQueryBuilder {
-  private final Pageable pageable;
-  private final Map<String, Object> params;
 
-  public ConditionQueryResult buildConditionQuery() {
+  public ConditionQueryResult buildConditionQuery(MultiValueMap<String, String> params) {
     final Map<String, Object> sqlParams = new HashMap<>();
     final StringBuilder builder = new StringBuilder();
     if (hasValue("sName")) {
@@ -37,7 +35,7 @@ public class TaskJpaQueryBuilder implements JpaQueryBuilder {
     return ConditionQueryResult.of(builder.toString(), sqlParams);
   }
 
-  public String getSort() {
+  public String getSort(Pageable pageable) {
     return String.format(
         "ORDER BY %s",
         String.join(
@@ -48,6 +46,6 @@ public class TaskJpaQueryBuilder implements JpaQueryBuilder {
   }
 
   public boolean hasValue(String name) {
-    return params.containsKey(name) && Strings.isNotBlank(params.get(name).toString());
+    return false;
   }
 }

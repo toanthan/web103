@@ -1,7 +1,7 @@
 package pqsoft.hrm.controller;
 
 import com.google.common.base.Preconditions;
-import com.google.common.collect.ImmutableMap;
+import com.google.common.collect.ImmutableList;
 import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
@@ -16,6 +16,7 @@ import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.CollectionUtils;
+import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.*;
 import pqsoft.hrm.dao.EmployeeRepository;
@@ -49,7 +50,7 @@ public class TaskController {
           })
           Pageable pageable) {
 
-    prepareDataList(model, pageable);
+    prepareDataList(model, pageable, new LinkedMultiValueMap<>());
     return "tasks";
   }
 
@@ -60,9 +61,10 @@ public class TaskController {
             @SortDefault(sort = "updatedAt", direction = Sort.Direction.DESC)
           })
           @PageableDefault(page = 0, size = 2)
-          Pageable pageable) {
-    final Page<Task> tasks =
-        taskService.search(pageable, ImmutableMap.of("admin", SecurityUtils.getAdmin()));
+          Pageable pageable,
+      MultiValueMap<String, String> params) {
+    params.put("admin", ImmutableList.of(String.valueOf(SecurityUtils.getAdmin())));
+    final Page<Task> tasks = taskService.search(pageable, params);
     model.addAttribute(
         "pageNumbers",
         IntStream.rangeClosed(1, tasks.getTotalPages()).boxed().collect(Collectors.toList()));
@@ -85,7 +87,7 @@ public class TaskController {
           })
           Pageable pageable,
       @RequestBody MultiValueMap<String, String> params) {
-    prepareDataList(model, pageable);
+    prepareDataList(model, pageable, params);
     return "tasks";
   }
 

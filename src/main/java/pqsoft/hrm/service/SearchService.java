@@ -2,22 +2,23 @@ package pqsoft.hrm.service;
 
 import java.util.Collections;
 import java.util.List;
-import java.util.Map;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
+import org.springframework.util.MultiValueMap;
 import pqsoft.hrm.sql.JpaQueryBuilder;
 
 public abstract class SearchService<T> {
   @PersistenceContext private EntityManager em;
 
-  public Page<T> search(final Pageable pageable, final Map<String, Object> params) {
-    final JpaQueryBuilder jpaQueryBuilder = getJpaQueryBuilder(pageable, params);
+  public Page<T> search(final Pageable pageable, final MultiValueMap<String, String> params) {
+    final JpaQueryBuilder jpaQueryBuilder = getJpaQueryBuilder();
 
-    final JpaQueryBuilder.ConditionQueryResult condition = jpaQueryBuilder.buildConditionQuery();
+    final JpaQueryBuilder.ConditionQueryResult condition =
+        jpaQueryBuilder.buildConditionQuery(params);
     final Query countQuery =
         em.createQuery(String.format("%s %s", getCountQuery(), condition.getConditionSql()));
     condition.getParams().forEach(countQuery::setParameter);
@@ -27,7 +28,7 @@ public abstract class SearchService<T> {
       return new PageImpl<>(Collections.emptyList(), pageable, total);
     }
 
-    final String sort = jpaQueryBuilder.getSort();
+    final String sort = jpaQueryBuilder.getSort(pageable);
     final Query itemQuery =
         em.createQuery(String.format("%s %s %s", getItemQuery(), condition.getConditionSql(), sort))
             .setMaxResults(pageable.getPageSize())
@@ -42,6 +43,5 @@ public abstract class SearchService<T> {
 
   public abstract String getCountQuery();
 
-  public abstract JpaQueryBuilder getJpaQueryBuilder(
-      final Pageable pageable, final Map<String, Object> params);
+  public abstract JpaQueryBuilder getJpaQueryBuilder();
 }
