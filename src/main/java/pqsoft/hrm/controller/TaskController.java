@@ -12,9 +12,11 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.data.web.SortDefault;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.CollectionUtils;
+import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.*;
 import pqsoft.hrm.dao.EmployeeRepository;
 import pqsoft.hrm.dao.TaskRepository;
@@ -47,6 +49,18 @@ public class TaskController {
           })
           Pageable pageable) {
 
+    prepareDataList(model, pageable);
+    return "tasks";
+  }
+
+  private void prepareDataList(
+      Model model,
+      @SortDefault.SortDefaults({
+            @SortDefault(sort = "createdAt", direction = Sort.Direction.DESC),
+            @SortDefault(sort = "updatedAt", direction = Sort.Direction.DESC)
+          })
+          @PageableDefault(page = 0, size = 2)
+          Pageable pageable) {
     final Page<Task> tasks =
         taskService.search(pageable, ImmutableMap.of("admin", SecurityUtils.getAdmin()));
     model.addAttribute(
@@ -55,10 +69,13 @@ public class TaskController {
     model.addAttribute("tasks", tasks);
     model.addAttribute("assignees", employeeRepos.findByAdmin(0));
     model.addAttribute("admin", SecurityUtils.getAdmin());
-    return "tasks";
   }
 
-  @PostMapping(value = "/tasks/search")
+  @RequestMapping(
+    value = "/tasks/search",
+    method = RequestMethod.POST,
+    consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE
+  )
   public String search(
       Model model,
       @PageableDefault(page = 0, size = 10)
@@ -67,11 +84,8 @@ public class TaskController {
             @SortDefault(sort = "updatedAt", direction = Sort.Direction.DESC)
           })
           Pageable pageable,
-      @RequestBody Map<String, Object> params) {
-    params.put("admin", SecurityUtils.getAdmin());
-
-    model.addAttribute("tasks", taskService.search(pageable, params));
-    model.addAttribute("assignees", employeeRepos.findByAdmin(0));
+      @RequestBody MultiValueMap<String, String> params) {
+    prepareDataList(model, pageable);
     return "tasks";
   }
 

@@ -16,7 +16,7 @@
                     </button>
                 </div>
                 <div class="modal-body">
-                    <form th:action="@{/tasks/{id}(id=${task.id})}" method="post" name="frmCreate">
+                    <form action="/tasks" method="post" name="frmCreate">
                         <div class="form-group">
                             <label for="eName">Task name</label>
                             <input type="text" class="form-control" id="eName" name="eName"/>
@@ -35,7 +35,7 @@
                     </form>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-primary" onclick="create('tasks', 'frmCreate')">Submit</button>
+                    <button type="button" class="btn btn-primary" onclick="create('tasks', 'frmSearcb')">Submit</button>
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                 </div>
             </div>
