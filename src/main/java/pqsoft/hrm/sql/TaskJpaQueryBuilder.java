@@ -2,6 +2,8 @@ package pqsoft.hrm.sql;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.stream.Collectors;
+import java.util.stream.StreamSupport;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.logging.log4j.util.Strings;
@@ -36,13 +38,13 @@ public class TaskJpaQueryBuilder implements JpaQueryBuilder {
   }
 
   public String getSort() {
-    final StringBuilder builder = new StringBuilder("ORDER BY ");
-    pageable
-        .getSort()
-        .forEach(
-            item ->
-                builder.append(String.format("%s %s", item.getProperty(), item.getDirection())));
-    return builder.toString();
+    return String.format(
+        "ORDER BY %s",
+        String.join(
+            ", ",
+            StreamSupport.stream(pageable.getSort().spliterator(), false)
+                .map(item -> String.format("%s %s", item.getProperty(), item.getDirection()))
+                .collect(Collectors.toList())));
   }
 
   public boolean hasValue(String name) {

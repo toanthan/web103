@@ -17,6 +17,7 @@ spring:
   jpa:
     show-sql: false
     hibernate:
+      dialect: org.hibernate.dialect.MySQLDialect
       ddl-auto: none
       use-new-id-generator-mappings: true
     properties.hibernate:

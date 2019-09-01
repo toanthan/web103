@@ -1,8 +1,8 @@
 security.oauth2.client:
-#  clientId: 157630305250-ufl0bcap6npu8gbtvjgrhcrdp55uhs0k.apps.googleusercontent.com
-#  clientSecret: EcZxSXsOcZr75DbQMexdS5-W
+  clientId: 157630305250-ufl0bcap6npu8gbtvjgrhcrdp55uhs0k.apps.googleusercontent.com
+  clientSecret: EcZxSXsOcZr75DbQMexdS5-W
 spring.datasource:
-  url: jdbc:mysql://192.168.0.129:3306/hrm?useSSL=false
+  url: jdbc:mysql://192.168.1.22:3306/hrm?useSSL=false
   username: dattran
   password: root
 version: 1.0.0.01

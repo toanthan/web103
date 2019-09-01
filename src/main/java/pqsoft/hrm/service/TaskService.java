@@ -13,11 +13,11 @@ public class TaskService extends SearchService<Task> {
   private JpaQueryBuilder jpaQueryBuilder;
 
   public String getItemQuery() {
-    return "FROM task";
+    return "FROM tasks";
   }
 
   public String getCountQuery() {
-    return "SELECT COUNT(*) FROM task";
+    return "SELECT COUNT(*) FROM tasks";
   }
 
   @Override
