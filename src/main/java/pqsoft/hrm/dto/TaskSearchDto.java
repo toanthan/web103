@@ -24,7 +24,7 @@ public class TaskSearchDto implements SearchDto {
     final List<String> joins = new ArrayList<>();
     if (Strings.isNotBlank(name)) {
       conditions.add("t.taskName LIKE :name");
-      params.put("name",  name +  "%");
+      params.put("name", name + "%");
     }
     if (Strings.isNotBlank(status)) {
       conditions.add("t.status = :status");

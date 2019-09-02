@@ -64,7 +64,7 @@ public class TaskController {
       final TaskSearchDto searchDto) {
     final Page<Task> tasks = taskService.search(pageable, searchDto);
     model.addAttribute("tasks", tasks);
-    model.addAttribute("assignees", employeeRepos.findByAdmin(0));
+    model.addAttribute("assignees", employeeRepos.findByStatus(1));
     model.addAttribute("admin", SecurityUtils.getAdmin());
 
     // dto for search/add/edit
@@ -98,9 +98,9 @@ public class TaskController {
   }
 
   @RequestMapping(
-      value = "/tasks/delete",
-      method = RequestMethod.POST,
-      consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE
+    value = "/tasks/delete",
+    method = RequestMethod.POST,
+    consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE
   )
   public RedirectView delete(@RequestParam Integer id, @RequestParam Integer creator) {
     checkTaskOwner(creator);
@@ -110,9 +110,9 @@ public class TaskController {
   }
 
   @RequestMapping(
-      value = "/tasks/add",
-      method = RequestMethod.POST,
-      consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE
+    value = "/tasks/add",
+    method = RequestMethod.POST,
+    consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE
   )
   public RedirectView create(@ModelAttribute("newDto") TaskDto input) {
     final Task task = new Task();
@@ -136,9 +136,9 @@ public class TaskController {
   }
 
   @RequestMapping(
-      value = "/tasks/update",
-      method = RequestMethod.POST,
-      consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE
+    value = "/tasks/update",
+    method = RequestMethod.POST,
+    consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE
   )
   public String update(@ModelAttribute("updateDto") TaskDto input) {
     if (Objects.isNull(input.getTaskId())) {
