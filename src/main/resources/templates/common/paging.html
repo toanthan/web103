@@ -11,9 +11,10 @@
                 <a class="page-link" th:href="@{/tasks(page=${currentPage - 1})}" tabindex="-1">Previous</a>
             </li>
             <li class="page-item" th:each="pageNumber : ${pageNumbers}">
-                <a class="page-link" th:href="@{/tasks(page=${pageNumber - 1})}" th:text="${pageNumber}"></a>
+                <a class="page-link"
+                   th:href="@{/tasks(page=${pageNumber - 1})}" th:text="${pageNumber}"></a>
             </li>
-            <li class="page-item" th:if="${currentPage} &gt; ${totalPages}">
+            <li class="page-item" th:if="${currentPage} &lt; ${totalPages}">
                 <a class="page-link" th:href="@{/tasks(page=${currentPage + 1})}">Next</a>
             </li>
         </ul>
