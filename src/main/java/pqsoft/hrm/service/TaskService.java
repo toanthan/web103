@@ -1,8 +1,6 @@
 package pqsoft.hrm.service;
 
-import java.util.Map;
 import java.util.Objects;
-import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import pqsoft.hrm.model.Task;
 import pqsoft.hrm.sql.JpaQueryBuilder;
@@ -13,17 +11,17 @@ public class TaskService extends SearchService<Task> {
   private JpaQueryBuilder jpaQueryBuilder;
 
   public String getItemQuery() {
-    return "FROM tasks";
+    return "FROM tasks t";
   }
 
   public String getCountQuery() {
-    return "SELECT COUNT(*) FROM tasks";
+    return "SELECT COUNT(*) FROM tasks t";
   }
 
   @Override
-  public JpaQueryBuilder getJpaQueryBuilder(Pageable pageable, Map<String, Object> params) {
+  public JpaQueryBuilder getJpaQueryBuilder() {
     if (Objects.isNull(jpaQueryBuilder)) {
-      jpaQueryBuilder = TaskJpaQueryBuilder.of(pageable, params);
+      jpaQueryBuilder = TaskJpaQueryBuilder.of();
     }
     return jpaQueryBuilder;
   }

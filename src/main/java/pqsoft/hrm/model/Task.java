@@ -2,15 +2,17 @@ package pqsoft.hrm.model;
 
 import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
 import javax.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
+import org.springframework.util.CollectionUtils;
 
 @Getter
 @Setter
 @Entity(name = "tasks")
 public class Task {
-  private static final String NEW = "NEW";
+  public static final String NEW = "NEW";
   private static final String IN_PROGRESS = "DOING";
   private static final String DONE = "DONE";
 
@@ -49,4 +51,12 @@ public class Task {
     inverseJoinColumns = @JoinColumn(name = "task_id")
   )
   private List<Employee> employees;
+
+  @Transient
+  public String getAssignees() {
+    if (CollectionUtils.isEmpty(employees)) {
+      return "";
+    }
+    return employees.stream().map(Employee::getAlias).collect(Collectors.joining());
+  }
 }

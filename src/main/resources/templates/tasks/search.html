@@ -6,35 +6,44 @@
 
 <div class="container-fluid" th:fragment="taskSearch">
     <h4>Search Criteria</h4>
-    <div class="form-row">
-        <div class="form-group col-md-2">
-            <label for="sName">Task Name</label>
-            <input type="email" class="form-control" id="sName" name="sName"/>
+    <form th:action="@{/tasks/search}" name="frmSearch" th:object="${searchDto}" method="post">
+        <div class="form-row">
+            <div class="form-group col-md-2">
+                <label for="sName">Task Name</label>
+                <input type="text" class="form-control" id="sName" th:field="*{name}"/>
+            </div>
+            <div class="form-group col-md-2">
+                <label for="status">Status</label>
+                <select class="form-control" id="status" th:field="*{status}">
+                    <option value="" selected="selected">ALL</option>
+                    <option value="NEW">NEW</option>
+                    <option value="DOING">DOING</option>
+                    <option value="DONE">DONE</option>
+                </select>
+            </div>
+            <div class="form-group col-md-2">
+                <label for="assignee">Assignee</label>
+                <select class="form-control" id="assignee" th:field="*{assignee}">
+                    <option value="">ALL</option>
+                    <option th:each="assignee : ${assignees}"
+                            th:value="${assignee.id}"
+                            th:text="${assignee.alias}"/>
+                </select>
+            </div>
+            <div class="form-group col-md-2">
+                <label for="fromDate">From Date</label>
+                <input type="datetime-local" class="form-control" id="fromDate" th:field="*{fromDate}" placeholder="yyyy-MM-dd"/>
+            </div>
+            <div class="form-group col-md-2">
+                <label for="toDate">To Date</label>
+                <input type="datetime-local" class="form-control" id="toDate" th:field="*{toDate}" placeholder="yyyy-MM-dd"/>
+            </div>
+            <div class="form-group col-md-2">
+                <label for="btnSearch">&nbsp;</label>
+                <button type="submit" class="btn btn-primary" id="btnSearch">Search</button>
+            </div>
         </div>
-        <div class="form-group col-md-2">
-            <label for="status">Status</label>
-            <select class="form-control" id="status" name="sStatus">
-                <option>NEW</option>
-                <option>DOING</option>
-                <option>DONE</option>
-            </select>
-        </div>
-        <div class="form-group col-md-2">
-            <label for="assignee">Assignee</label>
-            <select class="form-control" id="assignee" name="sAssignee">
-                <option th:each="assignee : ${assignees}" th:text="${assignee.alias}">
-                </option>
-            </select>
-        </div>
-        <div class="form-group col-md-2">
-            <label for="date">Created Date</label>
-            <input type="text" class="form-control" id="date" name="sCreatedDate"/>
-        </div>
-        <div class="form-group col-md-2">
-            <label for="btnSearch">&nbsp;</label>
-            <button type="submit" class="btn btn-primary" id="btnSearch">Search</button>
-        </div>
-    </div>
+    </form>
 </div>
 
 </body>
