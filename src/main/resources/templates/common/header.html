@@ -10,8 +10,11 @@
             <li class="nav-item">
                 <a class="nav-link" href="/tasks">Tasks</a>
             </li>
-            <li class="nav-item">
+            <li class="nav-item" th:if="${admin == 1}">
                 <a class="nav-link" href="/employees">Users</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/reports">Report</a>
             </li>
         </ul>
     </nav>

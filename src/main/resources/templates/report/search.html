@@ -6,28 +6,19 @@
 
 <div class="container-fluid" th:fragment="taskSearch">
     <h4>Search Criteria</h4>
-    <form th:action="@{/tasks/search}" name="frmSearch" th:object="${searchDto}" method="post">
+    <form th:action="@{/reports/search}" name="frmSearch" th:object="${searchDto}" method="post">
         <div class="form-row">
             <div class="form-group col-md-2">
-                <label for="sName">Task Name</label>
-                <input type="text" class="form-control" id="sName" th:field="*{name}"/>
-            </div>
-            <div class="form-group col-md-2">
-                <label for="status">Status</label>
-                <select class="form-control" id="status" th:field="*{status}">
-                    <option value="" selected="selected">ALL</option>
-                    <option value="NEW">NEW</option>
-                    <option value="DOING">DOING</option>
-                    <option value="DONE">DONE</option>
-                </select>
+                <label for="sName">Title</label>
+                <input type="text" class="form-control" id="sName" th:field="*{title}"/>
             </div>
             <div class="form-group col-md-2" th:if="${admin == 1}">
-                <label for="assignee">Assignee</label>
-                <select class="form-control" id="assignee" th:field="*{assignee}">
+                <label for="assignee">Creator</label>
+                <select class="form-control" id="assignee" th:field="*{creator}">
                     <option value="">ALL</option>
-                    <option th:each="assignee : ${assignees}"
-                            th:value="${assignee.id}"
-                            th:text="${assignee.alias}"/>
+                    <option th:each="creator : ${creators}"
+                            th:value="${creator.id}"
+                            th:text="${creator.alias}"/>
                 </select>
             </div>
             <div class="form-group col-md-2">

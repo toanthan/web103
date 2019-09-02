@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+
+<html xmlns:th="http://www.thymeleaf.org">
+
+<body>
+
+<div th:fragment="reportCreate">
+    <div class="modal fade" id="mdlCreate"
+         tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Create New Report</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <form th:action="@{/reports/add}" method="post" th:object="${newDto}">
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <label for="eName">Report Title</label>
+                            <input type="text" class="form-control" id="eName" th:field="*{title}"/>
+                        </div>
+                        <div class="form-group">
+                            <label for="eDescription">Description</label>
+                            <textarea class="form-control" id="eDescription" th:field="*{description}"
+                                      rows="3"></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label for="eTask">Task</label>
+                            <select class="form-control" id="eTask" th:field="*{taskId}">
+                                <option th:each="task : ${tasks}" th:value="${task.id}"
+                                        th:text="${task.taskName}">
+                                </option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-primary">Submit</button>
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>

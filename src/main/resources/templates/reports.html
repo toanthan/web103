@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>PQ-HRM</title>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"/>
+</head>
+<body>
+
+<div class="container-fluid">
+    <div th:replace="common/header :: menu"/>
+    <div th:replace="report/search"/>
+    <div class="container-fluid">
+        <h4>Report list</h4>
+        <table class="table">
+            <thead>
+            <tr>
+                <th scope="col">Title</th>
+                <th scope="col">Description</th>
+                <th scope="col">Creator</th>
+                <th scope="col">Created At</th>
+                <th scope="col">Task</th>
+                <th scope="col">Actions</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="report : ${reports}">
+                <td th:text="${report.title}"></td>
+                <td th:text="${report.description}"></td>
+                <td th:text="${report.creator.getAlias()}"></td>
+                <td th:text="${report.date}"></td>
+                <td th:text="${report.taskDisplay}"></td>
+                <td>
+                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#mdlEdit">
+                        <i class="fas fa-user-edit ms-2">Edit</i>
+                    </button>
+                    <button type="button" class="btn btn-dark" data-toggle="modal" data-target="#mdlDelete">
+                        <i class="fas fa-user-edit ms-2">Delete</i>
+                    </button>
+                </td>
+
+                <div th:replace="report/edit"/>
+                <div th:replace="report/delete"/>
+            </tr>
+            </tbody>
+        </table>
+        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#mdlCreate">Create Report</button>
+        <div th:replace="common/paging :: paging"/>
+    </div>
+</div>
+<div th:replace="report/add"/>
+<div th:replace="common/footer :: copy"/>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+
+</body>
+</html>
