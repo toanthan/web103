@@ -16,6 +16,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.CollectionUtils;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.view.RedirectView;
 import pqsoft.hrm.dao.EmployeeRepository;
 import pqsoft.hrm.dao.TaskRepository;
 import pqsoft.hrm.dto.TaskDto;
@@ -62,13 +63,20 @@ public class TaskController {
           Pageable pageable,
       final TaskSearchDto searchDto) {
     final Page<Task> tasks = taskService.search(pageable, searchDto);
-    model.addAttribute(
-        "pageNumbers",
-        IntStream.rangeClosed(1, tasks.getTotalPages()).boxed().collect(Collectors.toList()));
     model.addAttribute("tasks", tasks);
     model.addAttribute("assignees", employeeRepos.findByAdmin(0));
     model.addAttribute("admin", SecurityUtils.getAdmin());
+
+    // dto for search/add/edit
     model.addAttribute("searchDto", searchDto);
+    model.addAttribute("newDto", new TaskDto());
+
+    // paging
+    model.addAttribute(
+        "pageNumbers",
+        IntStream.rangeClosed(1, tasks.getTotalPages()).boxed().collect(Collectors.toList()));
+    model.addAttribute("currentPage", pageable.getPageNumber());
+    model.addAttribute("totalPages", tasks.getTotalPages());
   }
 
   @RequestMapping(
@@ -89,21 +97,28 @@ public class TaskController {
     return "tasks";
   }
 
-  @DeleteMapping("/tasks/{id}")
-  public String delete(@RequestParam Integer id) {
-    if (SecurityUtils.getAdmin() == 1) {
-      throw new IllegalArgumentException("Don't have permission to delete the task");
-    }
+  @RequestMapping(
+      value = "/tasks/delete",
+      method = RequestMethod.POST,
+      consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE
+  )
+  public RedirectView delete(@RequestParam Integer id, @RequestParam Integer creator) {
+    checkTaskOwner(creator);
+
     taskRepos.delete(id);
-    return "tasks";
+    return new RedirectView("/tasks");
   }
 
-  @PutMapping("/tasks")
-  public String create(@RequestBody TaskDto input) {
+  @RequestMapping(
+      value = "/tasks/add",
+      method = RequestMethod.POST,
+      consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE
+  )
+  public RedirectView create(@ModelAttribute("newDto") TaskDto input) {
     final Task task = new Task();
     task.setTaskName(input.getName());
     task.setDescription(input.getDescription());
-    task.setStatus(input.getStatus());
+    task.setStatus(Task.NEW);
     task.setCreatedAt(new Date());
     task.setUpdatedAt(new Date());
 
@@ -117,11 +132,15 @@ public class TaskController {
     }
 
     taskRepos.save(task);
-    return "tasks";
+    return new RedirectView("/tasks");
   }
 
-  @PostMapping("/tasks")
-  public String update(@RequestBody TaskDto input) {
+  @RequestMapping(
+      value = "/tasks/update",
+      method = RequestMethod.POST,
+      consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE
+  )
+  public String update(@ModelAttribute("updateDto") TaskDto input) {
     if (Objects.isNull(input.getTaskId())) {
       throw new IllegalArgumentException("Invalid request to update task");
     }
@@ -130,12 +149,7 @@ public class TaskController {
 
     int creator = task.getCreator().getId();
 
-    boolean isAdmin = SecurityUtils.getAdmin() == 1;
-    int employeeId = SecurityUtils.getEmployeeId();
-    if (employeeId != creator && !isAdmin) {
-      throw new IllegalArgumentException(
-          "Don't have permission to update the task because you are not task owner or admin");
-    }
+    checkTaskOwner(creator);
 
     task.setTaskName(input.getName());
     task.setDescription(input.getDescription());
@@ -150,5 +164,14 @@ public class TaskController {
     taskRepos.save(task);
 
     return "tasks";
+  }
+
+  private void checkTaskOwner(int creator) {
+    boolean isAdmin = SecurityUtils.getAdmin() == 1;
+    int employeeId = SecurityUtils.getEmployeeId();
+    if (employeeId != creator && !isAdmin) {
+      throw new IllegalArgumentException(
+          "Don't have permission to update the task because you are not task owner or admin");
+    }
   }
 }

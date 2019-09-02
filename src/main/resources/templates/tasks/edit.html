@@ -16,34 +16,33 @@
                     </button>
                 </div>
                 <div class="modal-body">
-                    <form th:action="@{/tasks/{id}(id=${task.id})}" method="post" name="frmEdit">
+                    <form th:action="@{/tasks?{id}(id=${task.id})}" method="post" name="frmEdit">
                         <div class="form-group">
                             <label for="eName">Task name</label>
-                            <input type="text" class="form-control" id="eName" name="eName"/>
+                            <input type="text" class="form-control" id="eName" th:value="${task.taskName}"/>
                         </div>
                         <div class="form-group">
                             <label for="eDescription">Description</label>
-                            <textarea class="form-control" id="eDescription" name="eDescription" rows="3"></textarea>
+                            <textarea class="form-control" id="eDescription" th:text="${task.description}" rows="3"></textarea>
                         </div>
                         <div class="form-group">
                             <label for="eStatus">Status</label>
-                            <select class="form-control" id="eStatus" name="eStatus">
-                                <option>NEW</option>
-                                <option>DOING</option>
-                                <option>DONE</option>
+                            <select class="form-control" id="eStatus" th:value="${task.status}">
+                                <option value="NEW">NEW</option>
+                                <option value="DOING">DOING</option>
+                                <option value="DONE">DONE</option>
                             </select>
                         </div>
                         <div class="form-group" th:if="${admin == 1}">
                             <label for="eAssignee">Choose employee to assign task</label>
-                            <select class="form-control" id="eAssignee" name="eAssignee" multiple="multiple">
-                                <option th:each="assignee : ${assignees}" th:text="${assignee.alias}">
-                                </option>
+                            <select class="form-control" id="eAssignee" multiple="multiple">
+                                <option th:each="assignee : ${assignees}" th:value="${task.assignees}" th:text="${assignee.alias}"/>
                             </select>
                         </div>
                     </form>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-primary" onclick="update('tasks', 'frmSearcb')">Submit</button>
+                    <button type="submit" class="btn btn-primary">Submit</button>
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                 </div>
             </div>

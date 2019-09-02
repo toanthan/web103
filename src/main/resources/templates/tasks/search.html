@@ -6,9 +6,8 @@
 
 <div class="container-fluid" th:fragment="taskSearch">
     <h4>Search Criteria</h4>
-    <form th:action="@{/tasks/search}" th:object="${searchDto}" method="post">
+    <form th:action="@{/tasks/search}" name="frmSearch" th:object="${searchDto}" method="post">
         <div class="form-row">
-
             <div class="form-group col-md-2">
                 <label for="sName">Task Name</label>
                 <input type="text" class="form-control" id="sName" th:field="*{name}"/>

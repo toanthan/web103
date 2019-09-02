@@ -12,7 +12,7 @@ import org.springframework.util.CollectionUtils;
 @Setter
 @Entity(name = "tasks")
 public class Task {
-  private static final String NEW = "NEW";
+  public static final String NEW = "NEW";
   private static final String IN_PROGRESS = "DOING";
   private static final String DONE = "DONE";
 
