@@ -26,7 +26,7 @@ import pqsoft.hrm.service.TaskService;
 import pqsoft.hrm.util.SecurityUtils;
 
 @Controller
-public class TaskController {
+public class TaskController extends AbstractController {
   private final TaskRepository taskRepos;
   private final EmployeeRepository employeeRepos;
   private final TaskService taskService;
@@ -65,7 +65,6 @@ public class TaskController {
     final Page<Task> tasks = taskService.search(pageable, searchDto);
     model.addAttribute("tasks", tasks);
     model.addAttribute("assignees", employeeRepos.findByStatus(1));
-    model.addAttribute("admin", SecurityUtils.getAdmin());
 
     // dto for search/add/edit
     model.addAttribute("searchDto", searchDto);
@@ -77,6 +76,8 @@ public class TaskController {
         IntStream.rangeClosed(1, tasks.getTotalPages()).boxed().collect(Collectors.toList()));
     model.addAttribute("currentPage", pageable.getPageNumber());
     model.addAttribute("totalPages", tasks.getTotalPages());
+
+    putUserInfo(model);
   }
 
   @RequestMapping(
