@@ -57,6 +57,6 @@ public class Task {
     if (CollectionUtils.isEmpty(employees)) {
       return "";
     }
-    return employees.stream().map(Employee::getAlias).collect(Collectors.joining());
+    return employees.stream().map(Employee::getAlias).collect(Collectors.joining(", "));
   }
 }
