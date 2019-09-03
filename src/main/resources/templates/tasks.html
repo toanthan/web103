@@ -36,10 +36,10 @@
                 <td th:text="${task.status}"></td>
                 <td th:text="${task.assignees}"></td>
                 <td>
-                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#mdlEdit">
+                    <button type="button" class="btn btn-primary" data-toggle="modal" th:attr="data-target='#mdlEdit_' + ${task.id}">
                         <i class="fas fa-user-edit ms-2">Edit</i>
                     </button>
-                    <button type="button" class="btn btn-dark" data-toggle="modal" data-target="#mdlDelete">
+                    <button type="button" class="btn btn-dark" data-toggle="modal" th:attr="data-target='#mdlDelete_' + ${task.id}">
                         <i class="fas fa-user-edit ms-2">Delete</i>
                     </button>
                 </td>

@@ -66,7 +66,7 @@ public class TaskController extends AbstractController {
     model.addAttribute("tasks", tasks);
     model.addAttribute("assignees", employeeRepos.findByStatus(1));
 
-    // dto for search/add/edit
+    // dto for search/add
     model.addAttribute("searchDto", searchDto);
     model.addAttribute("newDto", new TaskDto());
 
@@ -141,11 +141,11 @@ public class TaskController extends AbstractController {
     method = RequestMethod.POST,
     consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE
   )
-  public String update(@ModelAttribute("updateDto") TaskDto input) {
-    if (Objects.isNull(input.getTaskId())) {
+  public String update(@RequestParam Integer taskId, @ModelAttribute("updateDto") TaskDto input) {
+    if (Objects.isNull(taskId)) {
       throw new IllegalArgumentException("Invalid request to update task");
     }
-    Task task = taskRepos.findOne(input.getTaskId());
+    final Task task = taskRepos.findOne(taskId);
     Preconditions.checkArgument(Objects.nonNull(task));
 
     int creator = task.getCreator().getId();

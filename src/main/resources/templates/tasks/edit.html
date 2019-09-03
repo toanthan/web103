@@ -5,7 +5,7 @@
 <body>
 
 <div th:fragment="taskEdit">
-    <div class="modal fade" id="mdlEdit"
+    <div class="modal fade" th:id="'mdlEdit_' + ${task.id}"
          tabindex="-1" role="dialog" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
@@ -15,7 +15,7 @@
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
-                <form th:action="@{/tasks?(id=${task.id})}" method="post" name="frmEdit">
+                <form th:action="@{/tasks/update(taskId=${task.id})}" method="post">
                     <div class="modal-body">
                         <div class="form-group">
                             <label for="eName">Task name</label>
@@ -29,16 +29,17 @@
                         <div class="form-group">
                             <label for="eStatus">Status</label>
                             <select class="form-control" id="eStatus" th:value="${task.status}">
-                                <option value="NEW">NEW</option>
-                                <option value="DOING">DOING</option>
-                                <option value="DONE">DONE</option>
+                                <option th:selected="${task.status == 'NEW'}" th:value="NEW" th:text="NEW"></option>
+                                <option th:selected="${task.status == 'DOING'}" th:value="DOING" th:text="DOING"></option>
+                                <option th:selected="${task.status == 'DONE'}" th:value="DONE" th:text="DONE"></option>
                             </select>
                         </div>
                         <div class="form-group" th:if="${admin == 1}">
                             <label for="eAssignee">Choose employee to assign task</label>
                             <select class="form-control" id="eAssignee" multiple="multiple">
                                 <option th:each="assignee : ${assignees}"
-                                        th:value="${task.assignees}"
+                                        th:value="${assignee.id}"
+                                        th:selected="${task.employees.contains(assignee)}"
                                         th:text="${assignee.alias}"/>
                             </select>
                         </div>
