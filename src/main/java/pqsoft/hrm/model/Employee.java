@@ -2,7 +2,6 @@ package pqsoft.hrm.model;
 
 import java.util.*;
 import javax.persistence.*;
-
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;

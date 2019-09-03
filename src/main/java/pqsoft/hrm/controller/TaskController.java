@@ -15,6 +15,7 @@ import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.CollectionUtils;
+import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.view.RedirectView;
 import pqsoft.hrm.dao.EmployeeRepository;
@@ -141,7 +142,8 @@ public class TaskController extends AbstractController {
     method = RequestMethod.POST,
     consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE
   )
-  public String update(@RequestParam Integer taskId, @ModelAttribute("updateDto") TaskDto input) {
+  public RedirectView update(
+      @RequestParam Integer taskId, @RequestBody MultiValueMap<String, String> input) {
     if (Objects.isNull(taskId)) {
       throw new IllegalArgumentException("Invalid request to update task");
     }
@@ -152,19 +154,21 @@ public class TaskController extends AbstractController {
 
     checkTaskOwner(creator);
 
-    task.setTaskName(input.getName());
-    task.setDescription(input.getDescription());
-    task.setStatus(input.getStatus());
+    task.setTaskName(input.getFirst("taskName"));
+    task.setDescription(input.getFirst("description"));
+    task.setStatus(input.getFirst("status"));
     task.setUpdatedAt(new Date());
 
-    if (!CollectionUtils.isEmpty(input.getAssignees())) {
+    final List<Integer> assignees =
+        input.get("assignees").stream().map(Integer::valueOf).collect(Collectors.toList());
+    if (!CollectionUtils.isEmpty(assignees)) {
       task.setEmployees(
-          StreamSupport.stream(employeeRepos.findAll(input.getAssignees()).spliterator(), false)
+          StreamSupport.stream(employeeRepos.findAll(assignees).spliterator(), false)
               .collect(Collectors.toList()));
     }
     taskRepos.save(task);
 
-    return "tasks";
+    return new RedirectView("/tasks");
   }
 
   private void checkTaskOwner(int creator) {
