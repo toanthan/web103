@@ -59,4 +59,11 @@ public class Task {
     }
     return employees.stream().map(Employee::getAlias).collect(Collectors.joining(", "));
   }
+
+  public String getDepartment() {
+    if (CollectionUtils.isEmpty(employees)) {
+      return "";
+    }
+    return employees.stream().map(Employee::getDepartment).collect(Collectors.joining(", "));
+  }
 }

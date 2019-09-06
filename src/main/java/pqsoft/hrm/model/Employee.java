@@ -29,6 +29,7 @@ public class Employee {
   private String email;
   private String alias;
   private int status;
+  private String department;
 
   @ManyToMany(mappedBy = "employees")
   private List<Task> tasks;
