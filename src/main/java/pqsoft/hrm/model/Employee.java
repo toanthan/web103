@@ -2,12 +2,14 @@ package pqsoft.hrm.model;
 
 import java.util.*;
 import javax.persistence.*;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 
 @Getter
 @Setter
 @Entity(name = "employees")
+@EqualsAndHashCode(of = "id")
 public class Employee {
 
   @Id

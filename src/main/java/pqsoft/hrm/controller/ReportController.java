@@ -1,5 +1,8 @@
 package pqsoft.hrm.controller;
 
+import java.util.Date;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -20,12 +23,8 @@ import pqsoft.hrm.model.Report;
 import pqsoft.hrm.service.ReportService;
 import pqsoft.hrm.util.SecurityUtils;
 
-import java.util.Date;
-import java.util.stream.Collectors;
-import java.util.stream.IntStream;
-
 @Controller
-public class ReportController {
+public class ReportController extends AbstractController {
   private final ReportRepository reportRepos;
   private final EmployeeRepository employeeRepos;
   private final TaskRepository taskRepos;
@@ -33,7 +32,10 @@ public class ReportController {
 
   @Autowired
   public ReportController(
-      ReportRepository reportRepos, EmployeeRepository employeeRepos, TaskRepository taskRepos, ReportService reportService) {
+      ReportRepository reportRepos,
+      EmployeeRepository employeeRepos,
+      TaskRepository taskRepos,
+      ReportService reportService) {
     this.reportRepos = reportRepos;
     this.employeeRepos = employeeRepos;
     this.taskRepos = taskRepos;
@@ -44,9 +46,7 @@ public class ReportController {
   public String index(
       Model model,
       @PageableDefault(page = 0, size = 2)
-          @SortDefault.SortDefaults({
-            @SortDefault(sort = "date", direction = Sort.Direction.DESC)
-          })
+          @SortDefault.SortDefaults({@SortDefault(sort = "date", direction = Sort.Direction.DESC)})
           Pageable pageable) {
 
     prepareDataList(model, pageable, new ReportSearchDto());
@@ -65,12 +65,12 @@ public class ReportController {
     final Page<Report> reports = reportService.search(pageable, searchDto);
     model.addAttribute("reports", reports);
     model.addAttribute("creators", employeeRepos.findByStatus(1));
-    model.addAttribute("tasks", taskRepos.findByCreator(employeeRepos.findOne(SecurityUtils.getEmployeeId())));
+    model.addAttribute(
+        "tasks", taskRepos.findByCreator(employeeRepos.findOne(SecurityUtils.getEmployeeId())));
 
     // dto for search/add/edit
     model.addAttribute("searchDto", searchDto);
     model.addAttribute("newDto", new ReportDto());
-    model.addAttribute("admin", SecurityUtils.getAdmin());
 
     // paging
     model.addAttribute(
@@ -78,6 +78,8 @@ public class ReportController {
         IntStream.rangeClosed(1, reports.getTotalPages()).boxed().collect(Collectors.toList()));
     model.addAttribute("currentPage", pageable.getPageNumber());
     model.addAttribute("totalPages", reports.getTotalPages());
+
+    putUserInfo(model);
   }
 
   @RequestMapping(

@@ -15,6 +15,7 @@ import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.CollectionUtils;
+import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.view.RedirectView;
 import pqsoft.hrm.dao.EmployeeRepository;
@@ -26,7 +27,7 @@ import pqsoft.hrm.service.TaskService;
 import pqsoft.hrm.util.SecurityUtils;
 
 @Controller
-public class TaskController {
+public class TaskController extends AbstractController {
   private final TaskRepository taskRepos;
   private final EmployeeRepository employeeRepos;
   private final TaskService taskService;
@@ -65,9 +66,8 @@ public class TaskController {
     final Page<Task> tasks = taskService.search(pageable, searchDto);
     model.addAttribute("tasks", tasks);
     model.addAttribute("assignees", employeeRepos.findByStatus(1));
-    model.addAttribute("admin", SecurityUtils.getAdmin());
 
-    // dto for search/add/edit
+    // dto for search/add
     model.addAttribute("searchDto", searchDto);
     model.addAttribute("newDto", new TaskDto());
 
@@ -77,6 +77,8 @@ public class TaskController {
         IntStream.rangeClosed(1, tasks.getTotalPages()).boxed().collect(Collectors.toList()));
     model.addAttribute("currentPage", pageable.getPageNumber());
     model.addAttribute("totalPages", tasks.getTotalPages());
+
+    putUserInfo(model);
   }
 
   @RequestMapping(
@@ -140,30 +142,33 @@ public class TaskController {
     method = RequestMethod.POST,
     consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE
   )
-  public String update(@ModelAttribute("updateDto") TaskDto input) {
-    if (Objects.isNull(input.getTaskId())) {
+  public RedirectView update(
+      @RequestParam Integer taskId, @RequestBody MultiValueMap<String, String> input) {
+    if (Objects.isNull(taskId)) {
       throw new IllegalArgumentException("Invalid request to update task");
     }
-    Task task = taskRepos.findOne(input.getTaskId());
+    final Task task = taskRepos.findOne(taskId);
     Preconditions.checkArgument(Objects.nonNull(task));
 
     int creator = task.getCreator().getId();
 
     checkTaskOwner(creator);
 
-    task.setTaskName(input.getName());
-    task.setDescription(input.getDescription());
-    task.setStatus(input.getStatus());
+    task.setTaskName(input.getFirst("taskName"));
+    task.setDescription(input.getFirst("description"));
+    task.setStatus(input.getFirst("status"));
     task.setUpdatedAt(new Date());
 
-    if (!CollectionUtils.isEmpty(input.getAssignees())) {
+    final List<Integer> assignees =
+        input.get("assignees").stream().map(Integer::valueOf).collect(Collectors.toList());
+    if (!CollectionUtils.isEmpty(assignees)) {
       task.setEmployees(
-          StreamSupport.stream(employeeRepos.findAll(input.getAssignees()).spliterator(), false)
+          StreamSupport.stream(employeeRepos.findAll(assignees).spliterator(), false)
               .collect(Collectors.toList()));
     }
     taskRepos.save(task);
 
-    return "tasks";
+    return new RedirectView("/tasks");
   }
 
   private void checkTaskOwner(int creator) {

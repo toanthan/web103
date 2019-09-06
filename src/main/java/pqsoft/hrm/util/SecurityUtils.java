@@ -15,6 +15,18 @@ public class SecurityUtils {
     return (int) details.get(ADMIN);
   }
 
+  public static String getAvatar() {
+    final Map<String, Object> details =
+        (Map<String, Object>) getAuthentication().getUserAuthentication().getDetails();
+    return (String) details.get("picture");
+  }
+
+  public static String getUsername() {
+    final Map<String, Object> details =
+        (Map<String, Object>) getAuthentication().getUserAuthentication().getDetails();
+    return (String) details.get("name");
+  }
+
   public static int getEmployeeId() {
     final Map<String, Object> details =
         (Map<String, Object>) getAuthentication().getUserAuthentication().getDetails();

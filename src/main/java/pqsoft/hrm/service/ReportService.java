@@ -1,12 +1,10 @@
 package pqsoft.hrm.service;
 
+import java.util.Objects;
 import org.springframework.stereotype.Service;
 import pqsoft.hrm.model.Report;
-import pqsoft.hrm.model.Task;
 import pqsoft.hrm.sql.JpaQueryBuilder;
 import pqsoft.hrm.sql.TaskJpaQueryBuilder;
-
-import java.util.Objects;
 
 @Service
 public class ReportService extends SearchService<Report> {

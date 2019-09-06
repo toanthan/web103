@@ -5,10 +5,10 @@
 <body>
 
 <div th:fragment="taskDelete">
-    <div class="modal" tabindex="-1" role="dialog" id="mdlDelete">
+    <div class="modal" tabindex="-1" role="dialog" th:id="'mdlDelete_' + ${task.id}">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
-                <form th:action="@{/tasks/delete?(id=${task.id},creator=${task.creator.id})}" method="post">
+                <form th:action="@{/tasks/delete(id=${task.id},creator=${task.creator.id})}" method="post">
                     <div class="modal-header">
                         <h5 class="modal-title">Confirmation</h5>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
